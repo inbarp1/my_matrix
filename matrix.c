@@ -34,20 +34,20 @@ void ident(struct matrix *m) {
   int row, col;
   row=0;
   col=0;
-  while(row<m->rows){
-    while(col<m->cols){
-      if(row==col){
-	m->m[row][col]=1;
+  while(row < m->rows){
+    while(col < m->cols){
+      if(row == col){
+	m->m[row][col] = 1;
       }
       else{
-	m->m[row][col]=0;
+	m->m[row][col] = 0;
       }
       col++;
     }
-    row++;
     col=0;
+    row++;
   }
-  m->lastcol=m->cols;
+  m->lastcol = m->cols;
 }
 
 
@@ -58,7 +58,6 @@ Returns:
 a*b -> b
 */
 void matrix_mult(struct matrix *a, struct matrix *b) {
-  struct matrix * temporary_copy = new_matrix(b->rows,b->cols);
   int r_one, r_two,c_one, c_two;
   int temp;
   r_one = 0;
@@ -66,9 +65,12 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
   c_one = 0;
   c_two = 0;
   temp = 0;
+
+  struct matrix * temporary_copy = new_matrix(b->rows,b->cols);
+
   while(r_one < a->rows){
     while(c_two < b->cols){
-      while(r_rwo < b->rows){
+      while(r_two < b->rows){
 	temp += a->m[r_one][r_two] * b->m[r_two][c_two];
 	r_two++;
       }
