@@ -155,7 +155,6 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
 void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
   //swap x0,y0 and x1,y1 if necessary
   if (x0>x1) {
-    //printf("swap\n");
     int temp=x0;
     x0=x1;
     x1=temp;
@@ -168,16 +167,14 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
     y1=temp;
   }
   
-  //int oct=which_oct(x0,y0,x1,y1);
-  //printf("which_oct: %d\n",oct);
-
   int x,y,A,B,d;
   x=x0;
   y=y0;
   A=y1-y0;
   B=-(x1-x0);
 
-  if (A*B<=0) {//positive slope octant 1
+  if (A*B<=0) {
+    //positive slope octant 1
     if (abs(A)<=abs(B)) {
       d=2*A+B;
       while (x<=x1) {

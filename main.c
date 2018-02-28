@@ -10,53 +10,89 @@
 int main() {
 
   screen s;
+  clear_screen(s);
   color c;
-  printf("\nTESTING MATRIX FUNCTIONS\n");
 
- struct matrix * m=new_matrix(4,4);
-  struct matrix * n=new_matrix(4,3);
-  m->lastcol=4;
-  n->lastcol=3;
+  printf("\n TESTING MATRIX STUFF\n");
+  struct matrix * a=new_matrix(4,4);
+  struct matrix * b=new_matrix(4,3);
+  a->lastcol=4;
+  b->lastcol=3;
   
+  
+  printf("\nTesting identity matrix:\n");
+  ident(a);
+  print_matrix(a);
 
-  printf("\ntesting ident(m)\n");
-  ident(m);
-  print_matrix(m);
+  a->m[0][0]=1;
+  a->m[0][1]=3;
+  a->m[2][0]=4;
+  a->m[1][2]=7;
+  a->m[3][1]=9;
+  a->m[2][2]=5;
+  printf("\nMatrix A with values \n");
+  print_matrix(a);
+ 
+  printf("\nTesting multiplying matrix A with identity matrix\n");
+  matrix_mult(b,a);
+  print_matrix(a);
+  a->m[0][0]=1;
+  a->m[0][1]=3;
+  a->m[2][0]=4;
+  a->m[1][2]=7;
+  a->m[3][1]=9;
+  a->m[2][2]=5;
 
-  n->m[0][0]=4;
-  n->m[0][1]=37;
-  n->m[3][2]=9;
-  n->m[2][2]=10;
-  printf("\nmatrix with values\n");
-  print_matrix(n);
-
-  printf("\ntesting matrix_mult with identity matrix\nbefore:\n");
-  print_matrix(n);
-  matrix_mult(m,n);
-  printf("\nafter:\n");
-  print_matrix(n);
-
-  printf("\ntesting matrix_mult with not identity matrix\n");
-  m->m[0][2]=14;
-  m->m[1][0]=8;
-  m->m[2][2]=17;
-  print_matrix(m);
+  printf("\n Testing multiplying matrix A by matrix B \n");
+  b->m[0][2]=5;
+  b->m[1][0]=6;
+  b->m[0][0]=2;
+  b->m[1][2]=3;
+  b->m[2][2]=7;
+  print_matrix(b);
   printf("\nmultipled by\n");
-  print_matrix(n);
-  matrix_mult(m,n);
-  printf("\nresult\n");
-  print_matrix(n);
+  print_matrix(a);
+  matrix_mult(b,a);
+  printf("\nequals\n");
+  print_matrix(a);
 
-  free_matrix(m);
-  free_matrix(n);
+  free_matrix(a);
+  free_matrix(b);
   
-
   struct matrix *edges;
-  edges = new_matrix(4, 1);
+
+  edges = new_matrix(4, 4);
 
   c.red = 255;
-  c.green = 215;
-  c.blue = 0;
+  
+  add_edge(edges,0,350,0,50,400,0);
+  add_edge(edges,50,400,0,100,350,0);
+  add_edge(edges,0,350,0,100,350,0);
+
+  add_edge(edges,100,400,0,150,350,0);
+  add_edge(edges,150,350,0,200,400,0);
+  add_edge(edges,100,400,0,200,400,0);
+ 
+  add_edge(edges,200,350,0,250,400,0);
+  add_edge(edges,250,400,0,300,350,0);
+  add_edge(edges,200,350,0,300,350,0);
+
+  add_edge(edges,300,400,0,350,350,0);
+  add_edge(edges,350,350,0,400,400,0);
+  add_edge(edges,300,400,0,400,400,0);
+  
+  add_edge(edges,400,350,0,450,400,0);
+  add_edge(edges,450,400,0,500,350,0);
+  add_edge(edges,400,350,0,500,350,0);
+
+  draw_lines(edges, s, c);
+  
+  free_matrix(edges);
+  edges = new_matrix(4, 4);
+
+  c.red=0;
+  c.blue=255;
+
   add_edge(edges, 100, 175, 0, 100, 375, 0);
   add_edge(edges, 400, 175, 0, 400, 375, 0);
   add_edge(edges, 100, 175, 0, 250, 100, 0);
@@ -66,9 +102,11 @@ int main() {
   add_edge(edges, 400, 375, 0, 250, 300, 0);
   add_edge(edges, 100, 375, 0, 250, 450, 0);
   add_edge(edges, 400, 375, 0, 250, 450, 0);
-
+   
+ 
   draw_lines(edges, s, c);
   save_ppm(s,"image.ppm");
   display(s);
+  
   free_matrix( edges );
 }
