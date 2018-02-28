@@ -81,7 +81,7 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
     }
     c_two = 0;
     r_one++;
-  }
+x  }
   copy_matrix(temporary_copy,b);
   free_matrix(temporary_copy);    
 }

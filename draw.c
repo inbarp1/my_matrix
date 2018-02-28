@@ -75,7 +75,7 @@ int octant_num(int x0, int y0, int x1, int y1){
   }
   return 7;
 }
-
+/* 
 //Insert your line algorithm here
 void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
   if(x0>x1){
@@ -149,4 +149,88 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
     }
   }  
 
+}
+*/
+
+void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
+  //swap x0,y0 and x1,y1 if necessary
+  if (x0>x1) {
+    //printf("swap\n");
+    int temp=x0;
+    x0=x1;
+    x1=temp;
+    temp=y0;
+    y0=y1;
+    y1=temp;
+  }else if (x0==x1 && y0>y1) {
+    int temp=y0;
+    y0=y1;
+    y1=temp;
+  }
+  
+  //int oct=which_oct(x0,y0,x1,y1);
+  //printf("which_oct: %d\n",oct);
+
+  int x,y,A,B,d;
+  x=x0;
+  y=y0;
+  A=y1-y0;
+  B=-(x1-x0);
+
+  if (A*B<=0) {//positive slope octant 1
+    if (abs(A)<=abs(B)) {
+      d=2*A+B;
+      while (x<=x1) {
+	plot(s,c,x,y);
+	if (d>0) {
+	  y++;
+	  d+=2*B;
+	}
+	x++;
+	d+=2*A;
+      }
+    }
+
+    else if (abs(A)>abs(B)) {
+      d=A+2*B;
+      while(y<=y1) {
+	plot(s,c,x,y);
+	if (d<0) {
+	  x++;
+	  d+=2*A;
+	}
+	y++;
+	d+=2*B;
+      }
+    }
+  }
+  else {
+    if (abs(A)<=abs(B)) {
+      //octant 8, -1<m<0
+  
+      d=2*A-B;
+      while (x<=x1) {
+	plot(s,c,x,y);
+	if (d<0) {
+	  y--;
+	  d-=2*B;
+	}
+	x++;
+	d+=2*A;
+      }
+    }
+    else if (abs(A)>abs(B)) {
+      //octant 7, m<-1
+      d=A-2*B;
+      while (y>=y1) {
+	plot(s,c,x,y);
+	if (d>0) {
+	  x++;
+	  d+=2*A;
+	}
+	y--;
+	d-=2*B;
+      }
+    }
+  }
 }
